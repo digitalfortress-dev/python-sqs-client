@@ -9,7 +9,7 @@
 
 ---
 
-# Git Repository Template
+# Python SQS client
 
 ## Getting Started
 
