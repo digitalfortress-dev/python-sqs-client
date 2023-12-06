@@ -13,9 +13,9 @@
 
 ## Usage
 
-Clone the repository
+Install package
 ```
-git clone https://github.com/digitalfortress-dev/git-template.git
+pip install sqs-client
 ```
 
 ## License

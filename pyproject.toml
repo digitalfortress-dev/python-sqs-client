@@ -1,0 +1,18 @@
+[project]
+name = "sqs-client"
+version = "0.0.1"
+authors = [
+  {name="Digital Fortress", email="hai.huynh@digitalfortress.dev" },
+]
+description = "SQS client"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/digitalfortress-dev/python-sqs-client"
+Issues = "https://github.com/digitalfortress-dev/python-sqs-client/issues"
