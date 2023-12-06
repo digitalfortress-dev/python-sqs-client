@@ -56,6 +56,8 @@ publisher = Publisher(
     sqs_client=sqs_client,
     queue_name="sqs-queue-name",
 )
+
+publisher.publish("test message")
 ```
 
 ### Lazy mode
