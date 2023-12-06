@@ -20,6 +20,7 @@ pip install sqs-client
 
 ## Example
 
+#### Subscribe
 
 ```python
 from sqs_client.client import SQSClient
@@ -27,19 +28,76 @@ from sqs_client.client import SQSClient
 sqs_client = SQSClient()
 
 
-# Subscribe to an SQS
+# Subscribe to a SQS
+@sqs_client.task(
+    queue_name="sqs-queue-name",
+    wait_time_seconds=0,
+    visibility_timeout=300,
+)
+def test_task(message):
+    print("test_task received:", message)
+```
+
+#### Publish
+```python
+from sqs_client.client import SQSClient
+from sqs_client.publisher import Publisher
+
+sqs_client = SQSClient()
+
+sqs_client.publish(
+    queue_name="sqs-queue-name",
+    message="test message",
+)
+
+# or
+
+publisher = Publisher(
+    sqs_client=sqs_client,
+    queue_name="sqs-queue-name",
+)
+```
+
+### Lazy mode
+
+Faster to subscribe and publish a message to SQS
+
+```python
+from sqs_client.client import SQSClient
+
+sqs_client = SQSClient()
+
+
+# Subscribe to a SQS
 @sqs_client.task(
     queue_name="sqs-queue-name",
     lazy=True,
     wait_time_seconds=0,
     visibility_timeout=300,
 )
-def test_task(message):
-    print("test_task received:", message)
+def test_task(message, abc):
+    print("test_task received message:", message)
+    print("test_task received abc:", abc)
 
 
 # Publish a message
-test_task.trigger("Test message")
+test_task.trigger("Test message", abc=1)
+```
+
+Publish a lazy mode message without subscribe
+
+```python
+from sqs_client.client import SQSClient
+from sqs_client.publisher import Publisher
+
+sqs_client = SQSClient()
+
+publisher = Publisher(
+    sqs_client=sqs_client,
+    queue_name="sqs-queue-name",
+)
+
+publisher.publish_lazy("Test lazy message", abc=1)
 ```
 
 ## License
