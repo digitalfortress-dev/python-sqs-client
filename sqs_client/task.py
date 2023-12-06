@@ -2,6 +2,8 @@ import json
 import threading
 import uuid
 
+from sqs_client.publisher import Publisher
+
 
 class Task:
     """
@@ -49,6 +51,11 @@ class Task:
         self._delay_seconds = delay_seconds
         self._lazy = lazy
         self._thread = self._create_subscribe_thread()
+        self._publisher = Publisher(
+            sqs_client=self._sqs_client,
+            queue_name=self._queue_name,
+            delay_seconds=self._delay_seconds,
+        )
 
     def __call__(self, *args, **kwargs):
         """
@@ -119,13 +126,4 @@ class Task:
         if not self._lazy:
             raise Exception("Trigger function only work on lazy mode")
 
-        self._sqs_client.publish(
-            queue_name=self._queue_name,
-            delay_seconds=self._delay_seconds,
-            message=json.dumps(
-                {
-                    "args": args,
-                    "kwargs": kwargs,
-                }
-            ),
-        )
+        self._publisher.publish_lazy(*args, **kwargs)

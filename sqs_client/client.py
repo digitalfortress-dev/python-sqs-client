@@ -188,7 +188,7 @@ class SQSClient:
         This function allows you to publish a message to an SQS queue.
 
         Args:
-            queue_name: (string) The name of the SQS queue you want to receives messages.
+            queue_name: (string) The name of the SQS queue you want to receive messages.
             message: (string) The message content to be sent.
             delay_seconds: (integer) The length of time, in seconds, for which to delay a specific message.
                 Valid values: 0 to 900. Default: 0
