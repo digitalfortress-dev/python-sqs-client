@@ -11,11 +11,35 @@
 
 # Git Repository Template
 
-## Usage
+## Getting Started
 
 Install package
-```
+```commandline
 pip install sqs-client
+```
+
+## Example
+
+
+```python
+from sqs_client.client import SQSClient
+
+sqs_client = SQSClient()
+
+
+# Subscribe to an SQS
+@sqs_client.task(
+    queue_name="sqs-queue-name",
+    lazy=True,
+    wait_time_seconds=0,
+    visibility_timeout=300,
+)
+def test_task(message):
+    print("test_task received:", message)
+
+
+# Publish a message
+test_task.trigger("Test message")
 ```
 
 ## License
