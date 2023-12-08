@@ -66,6 +66,7 @@ class SQSClient:
         visibility_timeout=30,
         wait_time_seconds=20,
         lazy=False,
+        daemon=True,
     ):
         """
         Decorator to create a task object out of any callable.
@@ -81,6 +82,8 @@ class SQSClient:
                 to arrive in the queue before returning.
                 Default: 20.
             lazy: (bool) Make this task lazy mode. Trigger SQS message by task_name.trigger(*args, **kwargs)
+            daemon: (bool) Make this task daemon mode.
+                The entire Python program exits when no alive non-daemon threads are left.
 
         Examples:
             @sqs_client.task(queue="dev-retailer_getting_order_sqs")
@@ -100,6 +103,7 @@ class SQSClient:
                 visibility_timeout=visibility_timeout,
                 wait_time_seconds=wait_time_seconds,
                 lazy=lazy,
+                daemon=daemon,
             )
             self._task_list[task.get_id()] = task
             return task

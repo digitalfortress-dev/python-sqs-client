@@ -20,6 +20,7 @@ class Task:
         wait_time_seconds=20,
         delay_seconds=0,
         lazy=False,
+        daemon=True,
     ):
         """
         Initializes the Task class.
@@ -40,6 +41,8 @@ class Task:
                 when use trigger function.
                 Valid values: 0 to 900. Default: 0
             lazy: (bool) Make this task lazy mode. Trigger SQS message by task_name.trigger(*args, **kwargs)
+            daemon: (bool) Make this task daemon mode.
+                The entire Python program exits when no alive non-daemon threads are left.
         """
         self._id = str(uuid.uuid4())
         self._sqs_client = sqs_client
@@ -50,6 +53,7 @@ class Task:
         self._wait_time_seconds = wait_time_seconds
         self._delay_seconds = delay_seconds
         self._lazy = lazy
+        self._daemon = daemon
         self._thread = self._create_subscribe_thread()
         self._publisher = Publisher(
             sqs_client=self._sqs_client,
@@ -106,7 +110,9 @@ class Task:
         Returns:
             (Thread) The asynchronous thread to continuously receive messages from the SQS queue
         """
-        thread = threading.Thread(target=self.subscribe, name=self._id)
+        thread = threading.Thread(
+            target=self.subscribe, name=self._id, daemon=self._daemon
+        )
         thread.start()
         return thread
 

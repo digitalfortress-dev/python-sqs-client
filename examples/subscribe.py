@@ -8,6 +8,7 @@ sqs_client = SQSClient()
     queue_name="sqs-queue-name",
     wait_time_seconds=0,
     visibility_timeout=300,
+    daemon=False,
 )
 def test_task(message):
     print("test_task received:", message)

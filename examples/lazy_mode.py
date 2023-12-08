@@ -9,6 +9,7 @@ sqs_client = SQSClient()
     lazy=True,
     wait_time_seconds=0,
     visibility_timeout=300,
+    daemon=False,
 )
 def test_task(message, abc):
     print("test_task received message:", message)
