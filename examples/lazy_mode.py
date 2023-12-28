@@ -7,7 +7,7 @@ sqs_client = SQSClient()
 @sqs_client.task(
     queue_name="sqs-queue-name",
     lazy=True,
-    wait_time_seconds=0,
+    wait_time_seconds=20,
     visibility_timeout=300,
     daemon=False,
 )
