@@ -6,7 +6,7 @@ sqs_client = SQSClient()
 # Subscribe to a SQS
 @sqs_client.task(
     queue_name="sqs-queue-name",
-    wait_time_seconds=0,
+    wait_time_seconds=20,
     visibility_timeout=300,
     daemon=False,
 )
