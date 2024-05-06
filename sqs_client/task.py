@@ -75,6 +75,14 @@ class Task:
         """
         return self._id
 
+    def get_queue_name(self):
+        """
+        This function retrieves the queue name of task
+        Returns:
+            The queue name of task.
+        """
+        return self._queue_name
+
     def _get_message_processing(self):
         """
         This function retrieves the message processing for the task
