@@ -177,10 +177,9 @@ class SQSClient:
                 for message in messages["Messages"]:
                     try:
                         callback(message)
+                        self.delete_message(queue_name, message)
                     except Exception as e:
                         exception(e)
-
-                    self.delete_message(queue_name, message)
 
     def publish(
         self,
