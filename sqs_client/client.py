@@ -1,6 +1,7 @@
 from logging import exception
 
 import boto3
+from botocore.config import Config
 
 from sqs_client.task import Task
 
@@ -17,6 +18,7 @@ class SQSClient:
         region_name=None,
         aws_access_key_id=None,
         aws_secret_access_key=None,
+        max_pool_connections: int = 10,
     ):
         """
         Initializes the SQSClient class.
@@ -34,11 +36,13 @@ class SQSClient:
                 be used.  You only need to provide this argument if you want
                 to override the credentials used for this specific client.
         """
+        config = Config(max_pool_connections=max_pool_connections)
         self._boto3_client = boto3.client(
             "sqs",
             region_name=region_name,
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
+            config=config,
         )
         self._list_queue_urls = None
         self._task_list = {}
